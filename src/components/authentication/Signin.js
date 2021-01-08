@@ -1,10 +1,12 @@
 import React, { useRef } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { auth } from '../../firebase/firebaseIndex';
+import { useHistory } from 'react-router-dom'
 
 const Signin = () => {
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
+    const history = useHistory();
     
 
     const handleSubmit = (e) => {
@@ -12,7 +14,14 @@ const Signin = () => {
         const emailValue = emailRef.current.value;
         const passwordValue = passwordRef.current.value;
 
-        auth.signInWithEmailAndPassword(emailValue, passwordValue)
+        auth.signInWithEmailAndPassword(emailValue, passwordValue);
+
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                history.push("/albums");
+                console.log ("User signed in:", user.uid)
+            }
+          });
     }
     return (
         <div className="container">
