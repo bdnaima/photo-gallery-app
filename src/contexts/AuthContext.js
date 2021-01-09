@@ -1,12 +1,35 @@
-import React from 'react'
-import firebaseConfig from '../firebase/firebaseIndex'
+import React, {useState, useEffect} from 'react'
+import { useHistory } from 'react-router-dom';
+import { auth } from '../firebase/firebaseIndex';
 
-const AuthContext = React.createContext();
 
-function AuthProvider() {
+export const AuthContext = React.createContext();
+
+
+export const AuthProvider = ({ children }) => {
+    const [user, setUser] = useState(null);
+    const history = useHistory();
+
+    useEffect(() => {
+        auth.onAuthStateChanged(user => {
+          if (user) {
+              setUser(user)
+              history.push("/albums");
+              console.log ("User signed in:", user.uid )
+            }
+          });
+    });
+
     return (
-        <div>
-            
-        </div>
-    )
+        <AuthContext.Provider value={user}>{children}</AuthContext.Provider>
+      );
+
 }
+
+
+
+
+
+
+
+
