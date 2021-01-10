@@ -1,6 +1,19 @@
 import React, { useRef } from 'react';
 import { Form, Button, Container } from 'react-bootstrap';
 import { auth } from '../../firebase/firebaseIndex';
+import styled from 'styled-components';
+
+const StyledForm = styled.form`
+    background-color: #800080;
+    color: white;
+    border-radius: 2em;
+    opacity: 0.5;
+    padding: 40px;
+
+    &:hover {
+        opacity: 1;
+    }
+`;
 
 
 const Signin = () => {
@@ -17,29 +30,43 @@ const Signin = () => {
 
     }
     return (
-        <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: "100vh" }}>
-            <div className="w-100" style={{ maxWidth: "400px" }}>
-                <h1>Photo Gallery</h1>
+        <Container 
+            className="d-flex align-items-center justify-content-center" 
+            style={{ minHeight: "100vh" }}>
+            <div 
+            className="w-100" 
+            style={{
+                maxWidth: "400px", 
+                boxShadow: "1px 2px 5px 8px indigo", 
+                borderRadius:"2em" 
+            }}>
+            <StyledForm onSubmit={handleSubmit}>
+                    <h1>Sign In</h1>               
+                        <Form.Group controlId="formBasicEmail">
+                            <Form.Label>Email address</Form.Label>
+                            <Form.Control 
+                            type="email" ref={ emailRef } placeholder="Enter email" />
+                        </Form.Group>
 
-                <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Email address</Form.Label>
-                        <Form.Control type="email" ref={ emailRef } placeholder="Enter email" />
-                    </Form.Group>
-
-                    <Form.Group controlId="formBasicPassword">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" ref={ passwordRef } placeholder="Password" />
-                    </Form.Group>
-
-                    <Button 
-                        className="w-100" 
-                        type="submit" 
-                        style={{ backgroundColor: "purple" }}
+                        <Form.Group controlId="formBasicPassword">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control 
+                                type="password" 
+                                ref={ passwordRef } 
+                                placeholder="Password" />
+                        </Form.Group>
+                        <Button 
+                            className="w-100" 
+                            type="submit"
+                            style={{
+                                backgroundColor: "#4B0082", 
+                                borderColor:"black", 
+                                boxShadow:" 1px 1px 2px 1px black" 
+                            }}
                         >
                         Sign in
-                    </Button>
-                </Form>
+                        </Button>               
+                </StyledForm>
             </div>
         </Container>
     )

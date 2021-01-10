@@ -26,9 +26,16 @@ const NewAlbumModal = () => {
     }
     return (
         <>
-            <Button onClick={handleModal}>Create New Album</Button>
+            <Button 
+                onClick={handleModal} 
+                style={{backgroundColor:"purple", borderColor:"black"}}>
+            Create New Album
+            </Button>
 
-            <Modal show={show} onHide={handleClose} animation={false}>
+            <Modal 
+                show={show} 
+                onHide={handleClose} 
+                animation={false}>
                 <Modal.Header closeButton>
                     <Modal.Title>Create new album</Modal.Title>
                 </Modal.Header>
@@ -43,7 +50,12 @@ const NewAlbumModal = () => {
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button onClick={handleClose}>Create</Button>
+                    <Button 
+                        onClick={handleClose} 
+                        style={{backgroundColor:"purple", borderColor:"black"}}
+                    >
+                    Create
+                    </Button>
                 </Modal.Footer>
 
             </Modal>

@@ -16,7 +16,7 @@ const Albums = () => {
     useEffect(() => {
     //Fetch data from Firebase
 
-        db.collection('albums').get().then(snapshot => {
+        db.collection('albums').onSnapshot(snapshot => {
 
             const dummyAlbums = []
 
@@ -44,7 +44,7 @@ const Albums = () => {
                 <h1>Albums</h1>
                 <h2>{user.uid} Signed in!</h2>
 
-                <section>
+                <section style={{display: 'flex', justifyContent: "space-evenly"}}>
                     {
                         albums.map(album => {
                 
