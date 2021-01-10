@@ -1,7 +1,20 @@
 import React from 'react'
-import * as ReactBootStrap from 'react-bootstrap'
+import * as ReactBootStrap from 'react-bootstrap';
+import { auth } from '../../firebase/firebaseIndex';
+import { useHistory } from 'react-router-dom';
+
 
 const Navigation = () => {
+  const history = useHistory();
+  
+  const handleClick = () => {
+      auth.signOut().then(() => {
+          history.push('/signin')
+      })
+    }
+
+
+
   return (
     <>
         <ReactBootStrap.Navbar 
@@ -14,8 +27,7 @@ const Navigation = () => {
           <ReactBootStrap.Nav className="mr-auto">
           </ReactBootStrap.Nav>
           <ReactBootStrap.Nav>
-            <ReactBootStrap.Nav.Link href="/signin">Sign In</ReactBootStrap.Nav.Link>
-            <ReactBootStrap.Nav.Link eventKey={2} href="/Sign Up">Sign Up</ReactBootStrap.Nav.Link>
+            <button onClick={handleClick}>Sign out</button>
           </ReactBootStrap.Nav>
         </ReactBootStrap.Navbar.Collapse>
       </ReactBootStrap.Navbar>

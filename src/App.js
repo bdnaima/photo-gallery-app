@@ -3,10 +3,8 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route, Redirect} from 'react-router-dom';
 import Signin from './components/authentication/Signin';
-import Navigation from './components/layout/Navigation';
 import Albums from './components/layout/Albums';
 import { AuthProvider } from './contexts/AuthContext';
-
 
 const App = () => {
   
