@@ -16,7 +16,7 @@ const Albums = () => {
     //Fetch data from Firebase
 
         const unsubscribe = db.collection('albums')
-        .orderBy('title', 'desc')
+        .orderBy('title', 'asc')
         .onSnapshot(snapshot => {
 
             const dummyAlbums = []

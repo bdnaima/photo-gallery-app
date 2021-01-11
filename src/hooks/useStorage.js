@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { storage, db, timestamp } from '../firebase/firebaseIndex';
+import { storage, db, timestamp, } from '../firebase/firebaseIndex';
 
-const useStorage = (file) => {
+const useStorage = (file, albumId) => {
+   
     const [progress, setProgress] = useState(0);
     const [error, setError] = useState(null);
     const [imageURL, setImageURL] = useState(null);
@@ -19,11 +20,12 @@ const useStorage = (file) => {
             setError(err);
         }, async () => {
             const url = await storageRef.getDownloadURL();
+            const albumRef = db.collection('albums').doc(albumId);
             const createdAt = timestamp();
-            collectionRef.add({url, createdAt})
+            collectionRef.add({url, createdAt, albumRef});
             setImageURL(url);
         })
-    }, [file])
+    }, [file, albumId])
 
     return { progress, imageURL, error }
 }

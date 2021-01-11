@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import ProgressBar from './Progress';
-import { db } from '../../firebase/firebaseIndex';
 import { Card } from 'react-bootstrap';
-
+import { useParams } from 'react-router-dom';
+import { db } from '../../firebase/firebaseIndex';
+import UploadImage from '../layout/UploadImage';
 
 const AlbumImages = () => {
     const [imageFile, setImageFile] = useState(null);
+    const { albumId } = useParams();
     const [error, SetError] = useState(null);
+    const [images, setImages] = useState([]);   
     const types = ['image/png', 'image/jpeg'];
-
-    const [images, setImages] = useState([]);
 
     useEffect(() => {
         const unsubscribe = db.collection('images')
@@ -29,7 +29,7 @@ const AlbumImages = () => {
         //Unsubscribe from the collection when we are no longer using it.
         return unsubscribe;
         
-    }, [])
+    }, []);
 
 
     const handleChange = (e) => {
@@ -55,7 +55,7 @@ const AlbumImages = () => {
                         {error}
                     </div>}
                     {imageFile && <div>{imageFile.name}</div>}
-                    { imageFile  && <ProgressBar imageFile={imageFile} setImageFile={setImageFile}/> }
+                    { imageFile  && <UploadImage imageFile={imageFile} setImageFile={setImageFile} albumId={albumId}/> }
                 </div>
             </form>
 

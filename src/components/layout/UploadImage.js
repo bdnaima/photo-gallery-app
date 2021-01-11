@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import useStorage from '../../hooks/useStorage';
 import { ProgressBar } from 'react-bootstrap';
 
-const Progress = ({ imageFile, setImageFile }) => {
-    const { imageURL, progress } = useStorage(imageFile);
+const UploadImage = ({ imageFile, setImageFile, albumId }) => {
+    const { imageURL, progress } = useStorage(imageFile, albumId);
     
     useEffect(() => {
         if (imageURL){
@@ -19,4 +19,4 @@ const Progress = ({ imageFile, setImageFile }) => {
     )
 }
 
-export default Progress;
+export default UploadImage;
