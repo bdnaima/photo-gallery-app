@@ -58,11 +58,7 @@ const Signin = () => {
                         <Button 
                             className="w-100" 
                             type="submit"
-                            style={{
-                                backgroundColor: "#4B0082", 
-                                borderColor:"black", 
-                                boxShadow:" 1px 1px 2px 1px black" 
-                            }}
+                            style={{boxShadow:" 1px 1px 2px 1px black"}}
                         >
                         Sign in
                         </Button>               

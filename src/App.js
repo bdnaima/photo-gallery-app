@@ -1,10 +1,12 @@
 import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter, Route, Redirect} from 'react-router-dom';
+import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import Signin from './components/authentication/Signin';
 import Albums from './components/layout/Albums';
+import AlbumImages from './components/layout/AlbumImages';
 import { AuthProvider } from './contexts/AuthContext';
+
 
 const App = () => {
   
@@ -14,7 +16,7 @@ const App = () => {
         
           {/* <Signup /> */}
 
-              <Route path='/'>
+              <Route exact path='/'>
                 <Redirect to="/signin" />
               </Route>
 
@@ -22,10 +24,14 @@ const App = () => {
                 <Signin />
               </Route>
 
-              <Route path='/albums'>
-                
+              <Route exact path='/albums'>
                 <Albums />
               </Route>
+
+              <Route path='/albums/:albumId'>
+                <AlbumImages />
+              </Route>
+
       </AuthProvider>
     </BrowserRouter>
   );

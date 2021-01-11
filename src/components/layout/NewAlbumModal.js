@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { db } from '../../firebase/firebaseIndex';
 import { Modal, Button, Form, FormGroup } from 'react-bootstrap';
+import { AuthContext } from '../../contexts/AuthContext';
+
 
 const NewAlbumModal = () => {
     const [show, setShow] = useState(false);
     const [newAlbum, setNewAlbum] = useState("");
+    const user = useContext(AuthContext)
 
     const handleModal = () => {
         setShow(true);
@@ -15,10 +18,11 @@ const NewAlbumModal = () => {
             return
         }
         db.collection('albums').doc(newAlbum).set({
-            title: newAlbum
+            title: newAlbum,
+            owner: user.uid,
         })
-        setShow(!true);
         setNewAlbum("");
+        setShow(!true);
     }
 
     const handleChange = (e) => {
@@ -27,8 +31,7 @@ const NewAlbumModal = () => {
     return (
         <>
             <Button 
-                onClick={handleModal} 
-                style={{backgroundColor:"purple", borderColor:"black"}}>
+                onClick={handleModal}>
             Create New Album
             </Button>
 
@@ -52,7 +55,6 @@ const NewAlbumModal = () => {
                 <Modal.Footer>
                     <Button 
                         onClick={handleClose} 
-                        style={{backgroundColor:"purple", borderColor:"black"}}
                     >
                     Create
                     </Button>
