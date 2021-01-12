@@ -3,13 +3,13 @@ import { Card } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { db } from '../../firebase/firebaseIndex';
 import UploadImage from '../layout/UploadImage';
-import useStorage from '../../hooks/useStorage'
 
 const AlbumImages = () => {
     const [imageFile, setImageFile] = useState(null);
     const { albumId } = useParams();
-    const [error, SetError] = useState(null);
-    const [images, setImages] = useState([]);  
+    const [error, setError] = useState(null);
+    const [images, setImages] = useState([]); 
+    const [selectedImgs, setSelectedImgs] = useState({});
     const types = ['image/png', 'image/jpeg'];
 
     useEffect(() => {
@@ -33,25 +33,33 @@ const AlbumImages = () => {
         
     }, [albumId]);
 
-
     const handleChange = (e) => {
         let selected = e.target.files[0];
 
 
         if(selected && types.includes(selected.type)) {
             setImageFile(selected);
-            SetError("");
+            setError("");
         } else {
             setImageFile(null);
-            SetError('Please select an image file either png or jpeg');
+            setError('Please select an image file either png or jpeg');
         }
     }
-        
+
+    const handleSelectedImgs = (imageId) => {
+        if (selectedImgs[imageId]) {
+            delete selectedImgs[imageId]
+            setSelectedImgs()
+        }
+    }
+
+
+
     return (
         <>
             <h1>Images</h1>
             <form>
-                <input type="file" onChange={handleChange}/>
+                <input type="file" onChange={handleChange} multiple="mulitiple"/>
                 <div style={{backgroundColor: "lightPink", maxWidth: "30em"}}>
                     {error && <div style={{color: "red"}}>
                         {error}
@@ -62,14 +70,19 @@ const AlbumImages = () => {
             </form>
 
             <section>
-                {images && images.map(doc => {
-                    return  <Card style={{ width: '18rem' }} key={doc.id}>
-                                <Card.Img variant="top" src={doc.url} />
+                {images && images.map(image => {
+                    return  <Card style={{ width: '18rem' }} key={image.id}>
+                                <Card.Img variant="top" src={image.url} />
+                                <input 
+                                    type="checkbox"
+                                    checked={ selectedImgs[image.id] ? true : false}
+                                    onChange={() => handleSelectedImgs(image.id)} />
                             </Card>
                 })}
             </section>
         </>
     )
 }
+
 
 export default AlbumImages;

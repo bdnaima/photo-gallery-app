@@ -4,7 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
 import Navigation from '../layout/Navigation';
 import NewAlbumModal from '../layout/NewAlbumModal';
-import yoga from '../../assets/images/yoga.jpg';
+import albumCover from '../../assets/images/albumCover.jpg';
 import { db, auth } from '../../firebase/firebaseIndex';
 
 
@@ -57,7 +57,7 @@ const handleClick = () => {
                 
                             return  <Link to={`/albums/${album.id}`} key={album.id} style={{marginBottom: "2em"}}>
                                         <Card style={{ width: '18rem' }} key={album.id}>
-                                            <Card.Img style={{ width: '18rem' }} variant="top" src={yoga} />
+                                            <Card.Img style={{ width: '18rem' }} variant="top" src={albumCover} />
                                             <Card.Body>
                                                 <Card.Title>{album.title}</Card.Title>
                                             </Card.Body>
