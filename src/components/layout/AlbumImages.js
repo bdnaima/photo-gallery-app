@@ -3,16 +3,18 @@ import { Card } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { db } from '../../firebase/firebaseIndex';
 import UploadImage from '../layout/UploadImage';
+import useStorage from '../../hooks/useStorage'
 
 const AlbumImages = () => {
     const [imageFile, setImageFile] = useState(null);
     const { albumId } = useParams();
     const [error, SetError] = useState(null);
-    const [images, setImages] = useState([]);   
+    const [images, setImages] = useState([]);  
     const types = ['image/png', 'image/jpeg'];
 
     useEffect(() => {
         const unsubscribe = db.collection('images')
+            .where('albumRef', '==', db.collection('albums').doc(albumId))
             .orderBy('createdAt', 'desc')
             .onSnapshot((snapshot) => {
 
@@ -29,7 +31,7 @@ const AlbumImages = () => {
         //Unsubscribe from the collection when we are no longer using it.
         return unsubscribe;
         
-    }, []);
+    }, [albumId]);
 
 
     const handleChange = (e) => {

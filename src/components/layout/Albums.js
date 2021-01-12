@@ -1,15 +1,16 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { db } from '../../firebase/firebaseIndex';
-import { Link } from 'react-router-dom';
+import { Card } from 'react-bootstrap';
+import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
 import Navigation from '../layout/Navigation';
-import { Card } from 'react-bootstrap';
 import NewAlbumModal from '../layout/NewAlbumModal';
 import yoga from '../../assets/images/yoga.jpg';
+import { db, auth } from '../../firebase/firebaseIndex';
 
 
 const Albums = () => {
     const [albums, setAlbums] = useState([]);
+    const history = useHistory();
     const user = useContext(AuthContext)
 
     useEffect(() => {
@@ -28,11 +29,15 @@ const Albums = () => {
             });
             
             setAlbums(dummyAlbums);
-
-            console.log(dummyAlbums)
         },)
         return unsubscribe;
 }, []);
+  
+const handleClick = () => {
+    auth.signOut().then(() => {
+        history.push('/signin')
+    })
+  }
 
 
     if (user === null) {
@@ -46,11 +51,11 @@ const Albums = () => {
                 <h1>Albums</h1>
                 <h2>{user.uid} Signed in!</h2>
                 
-                <section style={{display: 'flex', justifyContent: "space-evenly"}}>
+                <section style={{display: 'flex', justifyContent: "space-evenly", flexWrap: "wrap"}}>
                     {
                         albums.map(album => {
                 
-                           return  <Link to={`/albums/${album.id}`} key={album.id}>
+                            return  <Link to={`/albums/${album.id}`} key={album.id} style={{marginBottom: "2em"}}>
                                         <Card style={{ width: '18rem' }} key={album.id}>
                                             <Card.Img style={{ width: '18rem' }} variant="top" src={yoga} />
                                             <Card.Body>
@@ -62,10 +67,11 @@ const Albums = () => {
                     }
                 </section>
 
-                <footer>
-                    <NewAlbumModal />
-                </footer>
-        </>
+                <button onClick={handleClick}>Sign out</button>
+            <footer>
+                <NewAlbumModal />
+            </footer>
+    </>
     )
 }
 

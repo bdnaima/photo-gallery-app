@@ -12,25 +12,24 @@ const App = () => {
   
   return (
     <BrowserRouter>
-      <AuthProvider>
-        
+      <AuthProvider>        
           {/* <Signup /> */}
 
-              <Route exact path='/'>
-                <Redirect to="/signin" />
-              </Route>
+            <Route exact path='/'>
+              <Redirect to="/signin" />
+            </Route>
 
-              <Route path='/signin'>
-                <Signin />
-              </Route>
+            <Route path='/signin'>
+              <Signin />
+            </Route>
 
-              <Route exact path='/albums'>
-                <Albums />
-              </Route>
+            <Route exact path='/albums'>
+              <Albums />
+            </Route>
 
-              <Route path='/albums/:albumId'>
-                <AlbumImages />
-              </Route>
+            <Route path='/albums/:albumId'>
+              <AlbumImages />
+            </Route>
 
       </AuthProvider>
     </BrowserRouter>
