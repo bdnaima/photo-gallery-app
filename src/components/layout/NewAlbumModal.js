@@ -15,14 +15,14 @@ const NewAlbumModal = () => {
 
     const handleClose = () => {
         if(!newAlbum) {
-            return
+            return setShow(!true);
         }
         db.collection('albums').doc(newAlbum).set({
             title: newAlbum,
             owner: user.uid,
         })
         setNewAlbum("");
-        setShow(!true);
+        
     }
 
     const handleChange = (e) => {

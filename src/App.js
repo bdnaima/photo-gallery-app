@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import Signin from './components/authentication/Signin';
 import Albums from './components/layout/Albums';
 import AlbumImages from './components/layout/AlbumImages';
+import Customer from './components/layout/Customer';
 import { AuthProvider } from './contexts/AuthContext';
 
 
@@ -27,6 +28,10 @@ const App = () => {
             </Route>
 
             <Route path='/albums/:albumId'>
+              <AlbumImages />
+            </Route>
+
+            <Route path='/customer/:albumId'>
               <AlbumImages />
             </Route>
 

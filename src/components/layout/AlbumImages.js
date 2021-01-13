@@ -44,7 +44,7 @@ const AlbumImages = () => {
     const [images, setImages] = useState([]); 
     const [selectedImgs, setSelectedImgs] = useState({});
     const [copyLink, setCopyLink] = useState('');
-    const [editName, setEditName] = useState('');
+    const [ title, setTitle ] = useState('')
     const inputRef = useRef(null);
     const types = ['image/png', 'image/jpeg'];
 
@@ -68,6 +68,18 @@ const AlbumImages = () => {
         return unsubscribe;
         
     }, [albumId]);
+
+    // Editing Album Name
+    useEffect(() => {
+        const unsubscribe = db.collection('albums').doc(albumId).onSnapshot(snapshot => {
+           const title = snapshot.data().title
+           setTitle(title);
+           console.log(snapshot.data())
+        });
+
+        return unsubscribe;
+    }, [albumId])
+
 
     const handleChange = (e) => {
         let selected = e.target.files[0];
@@ -96,29 +108,24 @@ const AlbumImages = () => {
         e.target.focus();
         setCopyLink('Copied!');
     }
+    
 
-    const handleEditName = (e) => {
+    const handleEdit = () => {
+        const newTitle = window.prompt("Edit Album Name", title)
 
-        setEditName(e.target.value);
-        
+        if (!newTitle) return
+        db.collection('albums').doc(albumId)
+            .set({title: newTitle}, {merge: true}  )
+
     }
-
-    // const handleEditClick = () => {
-
-    //     db.collection('albums')
-    //     .where('title', '==', 'Alubm_2')
-    //     .set({
-    //         title: editName,
-    //     });
-    //     setEditName(editName);
-    // }
 
 
 
     return (
         <>
             <Navigation />
-            <h1 style={{fontFamily: "Cursive", textAlign:"center"}}>Images</h1>
+            <h1 style={{fontFamily: "Cursive", textAlign:"center"}}>{title}</h1>
+            <Button onClick={handleEdit}><AiOutlineEdit /></Button>
 
             <StyledForm>
                 <form>
@@ -166,10 +173,8 @@ const AlbumImages = () => {
                     style={{marginLeft:"2em"}}
                     ref={inputRef} 
                     type="text" 
-                    value="http://localhost:3000/albums/NQL9oUZhE7ZODmZxA377" 
+                    value={window.location.href} 
                 /> 
-                <input type="text" onChange={handleEditName} />
-                <Button onClick="handleEditClick"><AiOutlineEdit /></Button>
             </div>
            
             <div style={{display: "flex", justifyContent:"center", marginTop:"2em", marginBottom:"2em"}}>
