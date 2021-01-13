@@ -42,9 +42,6 @@ const Albums = () => {
         return unsubscribe;
 }, []);
   
-
-
-
     if (user === null) {
         console.log("Signing in...")
         return <div>Signing in...</div>;
@@ -59,22 +56,21 @@ const Albums = () => {
                     <NewAlbumModal />
                 </div>
                
-
                 <section style={{display: 'flex', justifyContent: "space-evenly", flexWrap: "wrap", marginTop: "5em"}}>
                     {
-                        albums.map(album => {
+                        albums.map(album => (
                 
-                            return  <Link to={`/albums/${album.id}`} key={album.id} style={{marginBottom: "2em", color: "white"}}>
-                                        <StyledCard>
-                                        <Card style={{ width: '18rem', borderColor: "#800080" }} key={album.id}>
-                                            <Card.Img style={{ width: '18rem' }} variant="top" src={albumCover} />
-                                            <Card.Body style={{background: "#800080"}}>
-                                                <Card.Title>{album.title}</Card.Title>
-                                            </Card.Body>
-                                        </Card>
-                                        </StyledCard>
-                                    </Link>
-                            })
+                            <Link to={`/albums/${album.id}`} key={album.id} style={{marginBottom: "2em", color: "white"}}>
+                                <StyledCard>
+                                <Card style={{ width: '18rem', borderColor: "#800080" }} key={album.id}>
+                                    <Card.Img style={{ width: '18rem' }} variant="top" src={albumCover} />
+                                    <Card.Body style={{background: "#800080"}}>
+                                        <Card.Title>{album.title}</Card.Title>
+                                    </Card.Body>
+                                </Card>
+                                </StyledCard>
+                             </Link>
+                        ))
                     }
                 </section>
             <footer>

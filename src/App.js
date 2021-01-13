@@ -32,7 +32,7 @@ const App = () => {
             </Route>
 
             <Route path='/customer/:albumId'>
-              <AlbumImages />
+              <Customer />
             </Route>
 
       </AuthProvider>

@@ -4,59 +4,61 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { db } from '../../firebase/firebaseIndex';
 
 
-const NewAlbumModal = ({urls}) => {
+const NewAlbumModal = () => {
+    const [newAlbum, setNewAlbum] = useState("");
     const [show, setShow] = useState(false);
-    const [title, setTitle] = useState("");
     const user = useContext(AuthContext)
 
     const handleModal = () => {
-        setTitle("");
         setShow(true);
     }
 
     const handleClose = () => {
+        setNewAlbum("");
         setShow(false);
+    
     }
 
     const handleChange = (e) => {
-        setTitle(e.target.value);
+        setNewAlbum(e.target.value);
     }
 
-    const handleCreate = () => {
-        if (!title) return 
-        db.collection('albums').doc().set({
-            title: title,
+    const handleOrder = () => {
+        if (!newAlbum) return 
+        db.collection('albums').doc(newAlbum).set({
+            title: newAlbum,
             owner: user.uid,
         })
+        setNewAlbum("");
         setShow(false);
+        
     }
 
     return (
         <>
-            <Button 
-                onClick={handleModal}>
-            Create New Album
-            </Button>
+            <Button onClick={handleModal}>Order Images</Button>
 
             <Modal 
                 show={show} 
                 onHide={handleClose} 
                 animation={false}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Create new album</Modal.Title>
+                    <Modal.Title>Your name</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
                     <FormGroup>
                         <Form.Control 
-                        value={title} 
-                        onChange={handleChange} 
-                        type="text"/>
+                            value={newAlbum} 
+                            onChange={handleChange} 
+                            type="text"
+                            placeholder="Your name"
+                        />
                     </FormGroup>
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button onClick={handleCreate}>Create</Button>
+                    <Button onClick={handleOrder}>Order Album</Button>
                 </Modal.Footer>
 
             </Modal>
