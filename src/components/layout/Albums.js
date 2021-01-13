@@ -1,16 +1,25 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Card } from 'react-bootstrap';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import { AuthContext } from '../../contexts/AuthContext';
 import Navigation from '../layout/Navigation';
 import NewAlbumModal from '../layout/NewAlbumModal';
 import albumCover from '../../assets/images/albumCover.jpg';
-import { db, auth } from '../../firebase/firebaseIndex';
+import { db } from '../../firebase/firebaseIndex';
 
+const StyledCard = styled.div`
+    background-color: #800080;
+    color: white;
+    border-radius: 2em;
+    padding: 2em;
 
+    &:hover {
+        opacity: 0.5;
+    }
+`;
 const Albums = () => {
     const [albums, setAlbums] = useState([]);
-    const history = useHistory();
     const user = useContext(AuthContext)
 
     useEffect(() => {
@@ -33,11 +42,7 @@ const Albums = () => {
         return unsubscribe;
 }, []);
   
-const handleClick = () => {
-    auth.signOut().then(() => {
-        history.push('/signin')
-    })
-  }
+
 
 
     if (user === null) {
@@ -47,29 +52,33 @@ const handleClick = () => {
 
     return (
         <>
-            <Navigation />
-                <h1>Albums</h1>
-                <h2>{user.uid} Signed in!</h2>
+           <Navigation />
+                <h1 style={{textAlign:"center", fontFamily:"cursive", marginTop:"2em"}}>Albums</h1>
                 
-                <section style={{display: 'flex', justifyContent: "space-evenly", flexWrap: "wrap"}}>
+                <div style={{display:"flex", justifyContent:"center"}}>
+                    <NewAlbumModal />
+                </div>
+               
+
+                <section style={{display: 'flex', justifyContent: "space-evenly", flexWrap: "wrap", marginTop: "5em"}}>
                     {
                         albums.map(album => {
                 
-                            return  <Link to={`/albums/${album.id}`} key={album.id} style={{marginBottom: "2em"}}>
-                                        <Card style={{ width: '18rem' }} key={album.id}>
+                            return  <Link to={`/albums/${album.id}`} key={album.id} style={{marginBottom: "2em", color: "white"}}>
+                                        <StyledCard>
+                                        <Card style={{ width: '18rem', borderColor: "#800080" }} key={album.id}>
                                             <Card.Img style={{ width: '18rem' }} variant="top" src={albumCover} />
-                                            <Card.Body>
+                                            <Card.Body style={{background: "#800080"}}>
                                                 <Card.Title>{album.title}</Card.Title>
                                             </Card.Body>
                                         </Card>
+                                        </StyledCard>
                                     </Link>
                             })
                     }
                 </section>
-
-                <button onClick={handleClick}>Sign out</button>
             <footer>
-                <NewAlbumModal />
+               
             </footer>
     </>
     )

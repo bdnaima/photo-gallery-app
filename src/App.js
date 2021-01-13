@@ -14,7 +14,6 @@ const App = () => {
     <BrowserRouter>
       <AuthProvider>        
           {/* <Signup /> */}
-
             <Route exact path='/'>
               <Redirect to="/signin" />
             </Route>

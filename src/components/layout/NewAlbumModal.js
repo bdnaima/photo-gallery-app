@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
-import { db } from '../../firebase/firebaseIndex';
 import { Modal, Button, Form, FormGroup } from 'react-bootstrap';
 import { AuthContext } from '../../contexts/AuthContext';
+import { db } from '../../firebase/firebaseIndex';
 
 
 const NewAlbumModal = () => {

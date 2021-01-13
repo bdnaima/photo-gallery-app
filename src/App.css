@@ -1,3 +1,13 @@
 body {
   background-image: url('./assets/images/purple-background.jpg');
 }
+
+.navbar {
+  background-color: #DDA0DD;
+}
+
+@media (min-width: 576px) { 
+  #margin-left {
+    margin-left: 0;
+  }
+ }
