@@ -26,17 +26,13 @@ const ShareModal = () => {
 
     return (
         <div>
-             <Button 
-                onClick={handleModal}
-                style={{marginRight: "3em"}}>
-            Share
-            </Button>
+             <Button onClick={handleModal}>Share album</Button>
             <Modal 
                 show={show} 
                 onHide={handleClose} 
                 animation={false}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Copy URL and share with customer</Modal.Title>
+                    <Modal.Title>Copy URL and share with customer</Modal.Title> 
                 </Modal.Header>
 
                 <Modal.Body>

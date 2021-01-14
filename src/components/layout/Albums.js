@@ -62,7 +62,11 @@ const Albums = () => {
                 </Jumbotron>
 
                 <div style={{display:"flex", justifyContent:"center"}}>
-                    <NewAlbumModal />
+                    <NewAlbumModal 
+                    label="Create Album" 
+                    message="Create a new empty album" 
+                    placeholder="Enter name"
+                    />
                 </div>
             
                 <h1 style={{

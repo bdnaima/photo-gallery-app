@@ -36,6 +36,9 @@ const Signin = () => {
     }
     return (
         <StyledBody>
+             <div style={{display: "flex", justifyContent:"flex-end"}}>
+                <Button><a style={{color: "white"}} href="/signup">Sign Up</a></Button>
+            </div>
             <Container 
                 className="d-flex align-items-center justify-content-center" 
                 style={{ minHeight: "100vh" }}>

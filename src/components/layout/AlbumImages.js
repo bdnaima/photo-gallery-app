@@ -49,6 +49,7 @@ const AlbumImages = () => {
     const [ title, setTitle ] = useState('');
     const types = ['image/png', 'image/jpeg'];
 
+    //Get Images
     useEffect(() => {
         const unsubscribe = db.collection('images')
             .where('albumRef', '==', db.collection('albums').doc(albumId))
@@ -100,7 +101,7 @@ const AlbumImages = () => {
         if (selectedImgs[image.id]) {
             delete newSelectedImgs[image.id]
         } else {
-            newSelectedImgs[image.id] = image
+            newSelectedImgs[image.id] = image.url
         }
 
         setSelectedImgs(newSelectedImgs)
@@ -115,8 +116,7 @@ const AlbumImages = () => {
 
     }
 
-    const selectedImages = Object.values(selectedImgs)
-    console.log(selectedImgs)
+    const selectedUrls = Object.values(selectedImgs)
 
     return (
         <>
@@ -131,24 +131,25 @@ const AlbumImages = () => {
                 
 
                 <StyledForm>
-                    <label for="files">
+                    <label>
                         <input 
                             onChange={handleChange}
                             type="file" 
-                            id="files"
                             multiple="mulitiple"/>
                         <span>+</span>
                     </label>
                     <div style={{
                             display: "flex", 
-                            justifyContent: "center",
-                            flexDirection: "row-reverse"}}>
-                        <Button 
-                            onClick={handleEdit}
-                            style={{marginLeft: "2em"}}>
-                            Edit
-                        </Button>
+                            justifyContent: "space-evenly"
+                            }}>
+                        <Button  onClick={handleEdit}>Edit album</Button>
                         <ShareModal />
+                        <NewAlbumModal
+                            label="Create Album" 
+                            message="Create a new album with these photos" 
+                            placeholder="Enter name" 
+                            urls={selectedUrls} 
+                            disabled={selectedUrls.length == 0} />
                     </div>
                     <div style={{backgroundColor: "lightPink", maxWidth: "30em"}}>
                         {error && <div style={{color: "red"}}>
@@ -180,10 +181,6 @@ const AlbumImages = () => {
                         </Card>
                     ))}
                 </section>
-            
-                <div style={{display: "flex", justifyContent:"center", marginBottom:"2em"}}>
-                    {selectedImages.length > 0 && <NewAlbumModal images={selectedImages} />}
-                </div>
             </StyledBody>
         </>
     )

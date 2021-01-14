@@ -4,8 +4,7 @@ import styled from 'styled-components';
 import { AiFillLike, AiFillDislike } from 'react-icons/ai';
 import { useParams } from 'react-router-dom';
 import { db } from '../../firebase/firebaseIndex';
-import CustomerAlbumModal from './CustomerAlbumModal';
-
+import NewAlbumModal from '../layout/NewAlbumModal';
 
 const StyledBody = styled.body`
     background-color: lightgray;
@@ -13,7 +12,6 @@ const StyledBody = styled.body`
 
  const Customer =() => {
     const [images, setImages] = useState([]); 
-    const [selectedImgs, setSelectedImgs] = useState({});
     const [ title, setTitle ] = useState('');
     const { albumId } = useParams();
 
@@ -47,12 +45,6 @@ const StyledBody = styled.body`
         return unsubscribe;
     }, [albumId])
 
-    const handleSelectedImgs = (imageId) => {
-        if (selectedImgs[imageId]) {
-            delete selectedImgs[imageId]
-            setSelectedImgs()
-        }
-    }
 
     const handleLike = () => {
 
@@ -87,7 +79,10 @@ const StyledBody = styled.body`
                 ))}
                 </section>
                 <div style={{display: "flex", justifyContent:"flex-end", marginRight:"1em"}}>
-                <CustomerAlbumModal />
+                <NewAlbumModal 
+                    label="Order" 
+                    message="Order album with these photos" 
+                    placeholder="Enter your name"/>
                 </div>
             </StyledBody>
         </>
