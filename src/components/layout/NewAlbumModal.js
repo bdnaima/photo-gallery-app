@@ -33,11 +33,7 @@ const NewAlbumModal = ({urls}) => {
 
     return (
         <>
-            <Button 
-                onClick={handleModal}>
-            Create New Album
-            </Button>
-
+            <Button onClick={handleModal}>Create New Album</Button>
             <Modal 
                 show={show} 
                 onHide={handleClose} 

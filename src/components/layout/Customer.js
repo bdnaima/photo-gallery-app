@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Button } from 'react-bootstrap';
+import { Card, Button, Jumbotron, Container } from 'react-bootstrap';
+import styled from 'styled-components';
 import { AiFillLike, AiFillDislike } from 'react-icons/ai';
 import { useParams } from 'react-router-dom';
 import { db } from '../../firebase/firebaseIndex';
 import CustomerAlbumModal from './CustomerAlbumModal';
+
+
+const StyledBody = styled.body`
+    background-color: lightgray;
+`
 
  const Customer =() => {
     const [images, setImages] = useState([]); 
@@ -56,23 +62,34 @@ import CustomerAlbumModal from './CustomerAlbumModal';
 
     }
 
-
-
     return (
         <>
-            <h1 style={{fontFamily: "Cursive", textAlign:"center"}}>{title}</h1>
-            <section style={{display: "Flex", justifyContent:"space-evenly", flexWrap:"wrap"}}>
-            {images && images.map(image => (
-                <Card style={{ width: '18rem', marginBottom:"2em" }} key={image.id}>
-                    <div style={{display: "flex"}}>
-                        <Button style={{marginRight:"1em"}} onClick={handleLike}><AiFillLike /></Button> 
-                        <Button onClick={handleUnLike}><AiFillDislike /></Button>
-                    </div> 
-                    <Card.Img variant="top" src={image.url} />
-                </Card>
-            ))}
-            </section>
-            <CustomerAlbumModal />
+            <StyledBody>
+                <Jumbotron fluid>
+                    <Container>
+                        <h1 style={{color: "lightgray", fontFamily: "cursive"}}>Creating for everyone</h1>
+                    </Container>
+                </Jumbotron>
+                <h1 style={{fontFamily: "Cursive", textAlign:"center"}}>{title}</h1>
+                <section style={{
+                            display: "Flex", 
+                            justifyContent:"space-evenly", 
+                            flexWrap:"wrap",
+                            marginTop:"3em"}}>
+                {images && images.map(image => (
+                    <Card style={{ width: '18rem', marginBottom:"2em" }} key={image.id}>
+                        <div style={{display: "flex", backgroundColor: "lightgray"}}>
+                            <Button style={{marginRight:"1em"}} onClick={handleLike}><AiFillLike /></Button> 
+                            <Button onClick={handleUnLike}><AiFillDislike /></Button>
+                        </div> 
+                        <Card.Img variant="top" src={image.url} />
+                    </Card>
+                ))}
+                </section>
+                <div style={{display: "flex", justifyContent:"flex-end", marginRight:"1em"}}>
+                <CustomerAlbumModal />
+                </div>
+            </StyledBody>
         </>
     )
 }

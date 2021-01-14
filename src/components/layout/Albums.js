@@ -1,23 +1,28 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Card } from 'react-bootstrap';
+import { db } from '../../firebase/firebaseIndex';
+import { Card, Jumbotron, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { AuthContext } from '../../contexts/AuthContext';
 import Navigation from '../layout/Navigation';
 import NewAlbumModal from '../layout/NewAlbumModal';
 import albumCover from '../../assets/images/albumCover.jpg';
-import { db } from '../../firebase/firebaseIndex';
 
 const StyledCard = styled.div`
     background-color: #800080;
     color: white;
     border-radius: 2em;
-    padding: 2em;
+    padding: 1em;
 
     &:hover {
         opacity: 0.5;
     }
 `;
+
+const StyledBody = styled.body`
+    background-color: lightgray;
+`
+
 const Albums = () => {
     const [albums, setAlbums] = useState([]);
     const user = useContext(AuthContext)
@@ -43,20 +48,33 @@ const Albums = () => {
 }, []);
   
     if (user === null) {
-        console.log("Signing in...")
         return <div>Signing in...</div>;
     }
 
     return (
         <>
            <Navigation />
-                <h1 style={{textAlign:"center", fontFamily:"cursive", marginTop:"2em"}}>Albums</h1>
-                
+           <StyledBody>
+                <Jumbotron fluid>
+                    <Container>
+                        <h1 style={{color: "lightgray", fontFamily: "cursive"}}>Creating for everyone</h1>
+                    </Container>
+                </Jumbotron>
+
                 <div style={{display:"flex", justifyContent:"center"}}>
                     <NewAlbumModal />
                 </div>
-               
-                <section style={{display: 'flex', justifyContent: "space-evenly", flexWrap: "wrap", marginTop: "5em"}}>
+            
+                <h1 style={{
+                        textAlign:"center", 
+                        fontFamily:"cursive", 
+                        marginTop:"2em"}}>
+                Your Albums
+                </h1>
+                <section style={{
+                            display: 'flex', 
+                            justifyContent: "space-evenly", 
+                            flexWrap: "wrap", marginTop: "2em"}}>
                     {
                         albums.map(album => (
                 
@@ -73,9 +91,7 @@ const Albums = () => {
                         ))
                     }
                 </section>
-            <footer>
-               
-            </footer>
+            </StyledBody>
     </>
     )
 }

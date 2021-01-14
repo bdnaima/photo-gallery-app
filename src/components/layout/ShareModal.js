@@ -27,7 +27,8 @@ const ShareModal = () => {
     return (
         <div>
              <Button 
-                onClick={handleModal}>
+                onClick={handleModal}
+                style={{marginRight: "3em"}}>
             Share
             </Button>
             <Modal 

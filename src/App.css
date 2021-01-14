@@ -1,9 +1,17 @@
-body {
-  background-image: url('./assets/images/purple-background.jpg');
-}
 
 .navbar {
-  background-color: #DDA0DD;
+  background-color: lightgrey;
+}
+
+.jumbotron {
+  background-image: url("./assets/images/blackWhite.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center; 
+}
+
+.jumbotron-fluid {
+  height: 30em;
 }
 
 @media (min-width: 576px) { 
