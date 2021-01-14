@@ -16,7 +16,7 @@ const Navigation = () => {
         <ReactBootStrap.Navbar.Brand style={{color: "purple"}} href="/albums">Gallery</ReactBootStrap.Navbar.Brand>
           <ReactBootStrap.Nav className="mr-auto">
           </ReactBootStrap.Nav>
-          <ReactBootStrap.Navbar.Text>{`${user.email} |`}</ReactBootStrap.Navbar.Text>
+          <ReactBootStrap.Navbar.Text>{`${user && user.email} |`}</ReactBootStrap.Navbar.Text>
           <ReactBootStrap.Nav> 
             <a style={{color: "purple"}} href="/signin" onClick={handleClick}>Sign out</a>
           </ReactBootStrap.Nav>
