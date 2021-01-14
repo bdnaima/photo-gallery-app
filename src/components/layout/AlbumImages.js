@@ -36,7 +36,7 @@ label:hover{
 }
 `;
 
-const StyledBody = styled.body`
+const StyledBody = styled.div`
     background-color: lightgray;
 `
 
@@ -47,6 +47,7 @@ const AlbumImages = () => {
     const [images, setImages] = useState([]); 
     const [selectedImgs, setSelectedImgs] = useState({});
     const [ title, setTitle ] = useState('');
+    const [ owner, setOwner ] = useState();
     const types = ['image/png', 'image/jpeg'];
 
     //Get Images
@@ -74,8 +75,9 @@ const AlbumImages = () => {
     // Editing Album Name
     useEffect(() => {
         const unsubscribe = db.collection('albums').doc(albumId).onSnapshot(snapshot => {
-           const title = snapshot.data().title
-           setTitle(title);
+            const data = snapshot.data()
+            setTitle(data.title);
+            setOwner(data.owner);
         });
 
         return unsubscribe;
@@ -145,6 +147,7 @@ const AlbumImages = () => {
                         <Button  onClick={handleEdit}>Edit album</Button>
                         <ShareModal />
                         <NewAlbumModal
+                            owner={owner}
                             label="Create Album" 
                             message="Create a new album with these photos" 
                             placeholder="Enter name" 

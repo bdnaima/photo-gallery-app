@@ -16,7 +16,7 @@ const StyledForm = styled.form`
     }
 `;
 
-const StyledBody = styled.body`
+const StyledBody = styled.div`
     background-image: url(${purpleBackground});
 `
 

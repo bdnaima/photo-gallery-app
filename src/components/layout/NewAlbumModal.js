@@ -1,13 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Modal, Button, Form, FormGroup } from 'react-bootstrap';
-import { AuthContext } from '../../contexts/AuthContext';
 import { db, timestamp } from '../../firebase/firebaseIndex';
 
 
-const NewAlbumModal = ({urls, disabled, label, message, placeholder}) => {
+const NewAlbumModal = ({urls, owner, dislikedUrls,disabled, label, message, placeholder}) => {
     const [show, setShow] = useState(false);
     const [title, setTitle] = useState("");
-    const user = useContext(AuthContext);
 
     const handleModal = () => {
         setTitle("");
@@ -28,7 +26,7 @@ const NewAlbumModal = ({urls, disabled, label, message, placeholder}) => {
         const albumRef = db.collection('albums').doc()
         albumRef.set({
             title: title,
-            owner: user.uid,
+            owner: owner,
         }) 
         if (urls) {
             urls.forEach(url =>{
@@ -62,9 +60,18 @@ const NewAlbumModal = ({urls, disabled, label, message, placeholder}) => {
                             placeholder={placeholder}
                             />
                     </FormGroup>
-                    {urls && urls.map(url => (
-                        <img src={url} alt="" style={{maxWidth:"4em"}} />
-                    ))}
+                    <FormGroup>
+                        {urls && <p>Included photos</p>}
+                        {urls && urls.map(url => (
+                            <img src={url} alt="" style={{maxWidth:"4em"}} />
+                        ))}
+                    </FormGroup>
+                    <FormGroup>
+                        {dislikedUrls && <p>Not included photos</p>}
+                        {dislikedUrls && dislikedUrls.map(url => (
+                            <img src={url} alt="" style={{maxWidth:"4em"}} />
+                        ))}
+                    </FormGroup>
                 </Modal.Body>
 
                 <Modal.Footer>

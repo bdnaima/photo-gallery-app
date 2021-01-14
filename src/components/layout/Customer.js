@@ -6,13 +6,16 @@ import { useParams } from 'react-router-dom';
 import { db } from '../../firebase/firebaseIndex';
 import NewAlbumModal from '../layout/NewAlbumModal';
 
-const StyledBody = styled.body`
+const StyledBody = styled.div`
     background-color: lightgray;
 `
 
  const Customer =() => {
     const [images, setImages] = useState([]); 
     const [ title, setTitle ] = useState('');
+    const [ owner, setOwner ] = useState();
+    const [likes, setLikes] = useState({})
+    const [dislikes, setDislikes] = useState({});
     const { albumId } = useParams();
 
     useEffect(() => {
@@ -38,21 +41,37 @@ const StyledBody = styled.body`
 
     useEffect(() => {
         const unsubscribe = db.collection('albums').doc(albumId).onSnapshot(snapshot => {
-           const title = snapshot.data().title
-           setTitle(title);
+            const data = snapshot.data()
+            setTitle(data.title);
+            setOwner(data.owner);
         });
 
         return unsubscribe;
     }, [albumId])
 
 
-    const handleLike = () => {
+    const handleLike = (image) => {
+        const newLikes = {...likes}
+        newLikes[image.id] = image.url
+        setLikes(newLikes)
 
+        const newDislikes = {...dislikes}
+        delete newDislikes[image.id]
+        setDislikes(newDislikes)
     }
 
-    const handleUnLike = () => {
+    const handleDislike = (image) => {
+        const newDislikes = {...dislikes}
+        newDislikes[image.id] = image.url
+        setDislikes(newDislikes)
 
+        const newLikes = {...likes}
+        delete newLikes[image.id]
+        setLikes(newLikes)
     }
+
+    const likedUrls = Object.values(likes);
+    const dislikedUrls = Object.values(dislikes);
 
     return (
         <>
@@ -71,8 +90,17 @@ const StyledBody = styled.body`
                 {images && images.map(image => (
                     <Card style={{ width: '18rem', marginBottom:"2em" }} key={image.id}>
                         <div style={{display: "flex", backgroundColor: "lightgray"}}>
-                            <Button style={{marginRight:"1em"}} onClick={handleLike}><AiFillLike /></Button> 
-                            <Button onClick={handleUnLike}><AiFillDislike /></Button>
+                            <Button
+                                variant={likes[image.id] ? "success" : "light"}
+                                style={{marginRight:"1em"}}
+                                onClick={() => handleLike(image)}>
+                                <AiFillLike />
+                            </Button> 
+                            <Button
+                                variant={dislikes[image.id] ? "danger" : "light"}
+                                onClick={() => handleDislike(image)}>
+                                <AiFillDislike />
+                            </Button>
                         </div> 
                         <Card.Img variant="top" src={image.url} />
                     </Card>
@@ -80,7 +108,11 @@ const StyledBody = styled.body`
                 </section>
                 <div style={{display: "flex", justifyContent:"flex-end", marginRight:"1em"}}>
                 <NewAlbumModal 
+                    disabled={likedUrls.length + dislikedUrls.length === images.length ? false : true}
                     label="Order" 
+                    owner={owner}
+                    urls={likedUrls}
+                    dislikedUrls={dislikedUrls}
                     message="Order album with these photos" 
                     placeholder="Enter your name"/>
                 </div>

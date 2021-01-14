@@ -19,7 +19,7 @@ const StyledCard = styled.div`
     }
 `;
 
-const StyledBody = styled.body`
+const StyledBody = styled.div`
     background-color: lightgray;
 `
 
@@ -28,9 +28,8 @@ const Albums = () => {
     const user = useContext(AuthContext)
 
     useEffect(() => {
-    //Fetch data from Firebase
-
-        const unsubscribe = db.collection('albums')
+        if (!user) return
+        const unsubscribe = db.collection('albums').where('owner', '==', user.uid)
         .orderBy('title', 'asc')
         .onSnapshot(snapshot => {
 
@@ -45,7 +44,7 @@ const Albums = () => {
             setAlbums(dummyAlbums);
         },)
         return unsubscribe;
-}, []);
+    },[user]);
   
     if (user === null) {
         return <div>Signing in...</div>;
@@ -63,10 +62,11 @@ const Albums = () => {
 
                 <div style={{display:"flex", justifyContent:"center"}}>
                     <NewAlbumModal 
-                    label="Create Album" 
-                    message="Create a new empty album" 
-                    placeholder="Enter name"
-                    />
+                        owner={user && user.uid}    
+                        label="Create Album" 
+                        message="Create a new empty album" 
+                        placeholder="Enter name"
+                        />
                 </div>
             
                 <h1 style={{
