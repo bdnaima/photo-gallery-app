@@ -122,6 +122,11 @@ const AlbumImages = () => {
             .set({title: newTitle}, {merge: true})
     }
 
+    const handleDone = () => {
+        setSelectedImgs({});
+        setMessage("Album created!")
+    }
+
     const selectedUrls = Object.values(selectedImgs)
 
     return (
@@ -158,14 +163,17 @@ const AlbumImages = () => {
                             message="Create a new album with these photos" 
                             placeholder="Enter name" 
                             urls={selectedUrls} 
-                            disabled={selectedUrls.length == 0} />
+                            disabled={selectedUrls.length == 0} 
+                            onDone={handleDone}
+                        />
                     </div>
                     <div style={{
                             backgroundColor: "plum", 
                             maxWidth: "30em", 
                             marginRight:'auto', 
                             marginLeft: 'auto', 
-                            textAlign: 'center'
+                            textAlign: 'center',
+                            fontWeight:"bold"
                         }}>
                         {error && <div style={{color: "red"}}>
                             {error}

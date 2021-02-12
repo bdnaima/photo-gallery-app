@@ -15,6 +15,7 @@ const StyledBody = styled.div`
     const [images, setImages] = useState([]); 
     const [ title, setTitle ] = useState('');
     const [ owner, setOwner ] = useState();
+    const [message, setMessage] = useState("");
     const [likes, setLikes] = useState({})
     const [dislikes, setDislikes] = useState({});
     const { albumId } = useParams();
@@ -71,6 +72,10 @@ const StyledBody = styled.div`
         setLikes(newLikes)
     }
 
+    const handleDone = () => {
+        setMessage("Order complete!")
+    }
+
     const likedUrls = Object.values(likes);
     const dislikedUrls = Object.values(dislikes);
 
@@ -83,15 +88,15 @@ const StyledBody = styled.div`
                     </Container>
                 </Jumbotron>
                 <h1 style={{fontFamily: "Cursive", textAlign:"center"}}>{title}</h1>
-                <div style={{display: "flex", justifyContent:"flex-end", marginRight:"1em"}}>
-                    <NewAlbumModal 
-                        disabled={likedUrls.length + dislikedUrls.length === images.length ? false : true}
-                        label="Order" 
-                        owner={owner}
-                        urls={likedUrls}
-                        dislikedUrls={dislikedUrls}
-                        message="Order album with these photos" 
-                        placeholder="Enter your name"/>
+                <div style={{
+                            backgroundColor: "plum", 
+                            maxWidth: "30em", 
+                            marginRight:'auto', 
+                            marginLeft: 'auto', 
+                            textAlign: 'center',
+                            fontWeight:"bold"
+                        }}>
+                        {message}
                 </div>
                 <SRLWrapper>
                     <section 
@@ -122,6 +127,18 @@ const StyledBody = styled.div`
                     ))}
                     </section>
                 </SRLWrapper>
+                <div style={{display: "flex", justifyContent:"flex-end", marginRight:"1em"}}>
+                    <NewAlbumModal 
+                        disabled={likedUrls.length + dislikedUrls.length === images.length ? false : true}
+                        label="Order" 
+                        owner={owner}
+                        urls={likedUrls}
+                        dislikedUrls={dislikedUrls}
+                        message="Order album with these photos" 
+                        placeholder="Enter your name"
+                        onDone={handleDone}
+                    />
+                </div>
             </StyledBody>
         </>
     )

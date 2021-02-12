@@ -3,10 +3,9 @@ import { Modal, Button, Form, FormGroup } from 'react-bootstrap';
 import { db, timestamp } from '../../firebase/firebaseIndex';
 
 
-const NewAlbumModal = ({urls, owner, dislikedUrls,disabled, label, message, placeholder}) => {
+const NewAlbumModal = ({urls, owner, dislikedUrls,disabled, label, message, placeholder, onDone}) => {
     const [show, setShow] = useState(false);
     const [title, setTitle] = useState("");
-    const [confirmation, setConfirmation] = useState("");
 
     const handleModal = () => {
         setTitle("");
@@ -38,7 +37,7 @@ const NewAlbumModal = ({urls, owner, dislikedUrls,disabled, label, message, plac
                 })
                
             })
-            setConfirmation("Your album has been created!")
+            onDone();
         }
         setShow(false);
     }
@@ -83,7 +82,6 @@ const NewAlbumModal = ({urls, owner, dislikedUrls,disabled, label, message, plac
                 </Modal.Footer>
 
             </Modal>
-            <h3 style={{marginLeft: "10px",}}>{confirmation}</h3>
         </>
     )
 }
