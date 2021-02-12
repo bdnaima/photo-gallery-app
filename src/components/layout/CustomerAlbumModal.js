@@ -36,7 +36,6 @@ const NewAlbumModal = () => {
     return (
         <>
             <Button onClick={handleModal}>Order Images</Button>
-
             <Modal 
                 show={show} 
                 onHide={handleClose} 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button, Jumbotron, Container } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { db } from '../../firebase/firebaseIndex';
 import Navigation from '../layout/Navigation';
@@ -147,6 +147,9 @@ const AlbumImages = () => {
                             display: "flex", 
                             justifyContent: "space-evenly"
                             }}>
+                        <Link to="/albums">
+                            <Button>All Albums</Button>
+                         </Link>
                         <Button  onClick={handleEdit}>Edit album</Button>
                         <ShareModal />
                         <NewAlbumModal
