@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button, Jumbotron, Container } from 'react-bootstrap';
 import styled from 'styled-components';
+import { SRLWrapper } from "simple-react-lightbox";
 import { AiFillLike, AiFillDislike } from 'react-icons/ai';
 import { useParams } from 'react-router-dom';
 import { db } from '../../firebase/firebaseIndex';
@@ -82,40 +83,45 @@ const StyledBody = styled.div`
                     </Container>
                 </Jumbotron>
                 <h1 style={{fontFamily: "Cursive", textAlign:"center"}}>{title}</h1>
-                <section style={{
+                <div style={{display: "flex", justifyContent:"flex-end", marginRight:"1em"}}>
+                    <NewAlbumModal 
+                        disabled={likedUrls.length + dislikedUrls.length === images.length ? false : true}
+                        label="Order" 
+                        owner={owner}
+                        urls={likedUrls}
+                        dislikedUrls={dislikedUrls}
+                        message="Order album with these photos" 
+                        placeholder="Enter your name"/>
+                </div>
+                <SRLWrapper>
+                    <section 
+                        style={{
                             display: "Flex", 
-                            justifyContent:"space-evenly", 
+                            placeContent: "flex-start", 
                             flexWrap:"wrap",
                             marginTop:"3em"}}>
-                {images && images.map(image => (
-                    <Card style={{ width: '18rem', marginBottom:"2em" }} key={image.id}>
-                        <div style={{display: "flex", backgroundColor: "lightgray"}}>
-                            <Button
-                                variant={likes[image.id] ? "success" : "light"}
-                                style={{marginRight:"1em"}}
-                                onClick={() => handleLike(image)}>
-                                <AiFillLike />
-                            </Button> 
-                            <Button
-                                variant={dislikes[image.id] ? "danger" : "light"}
-                                onClick={() => handleDislike(image)}>
-                                <AiFillDislike />
-                            </Button>
-                        </div> 
-                        <Card.Img variant="top" src={image.url} />
-                    </Card>
-                ))}
-                </section>
-                <div style={{display: "flex", justifyContent:"flex-end", marginRight:"1em"}}>
-                <NewAlbumModal 
-                    disabled={likedUrls.length + dislikedUrls.length === images.length ? false : true}
-                    label="Order" 
-                    owner={owner}
-                    urls={likedUrls}
-                    dislikedUrls={dislikedUrls}
-                    message="Order album with these photos" 
-                    placeholder="Enter your name"/>
-                </div>
+                    {images && images.map(image => (
+                        <Card style={{ width: '18rem', marginBottom:"2em", margin: "1em"}} key={image.id}>
+                            <div style={{display: "flex", backgroundColor: "lightgray"}}>
+                                <Button
+                                    variant={likes[image.id] ? "success" : "light"}
+                                    style={{marginRight:"1em"}}
+                                    onClick={() => handleLike(image)}>
+                                    <AiFillLike />
+                                </Button> 
+                                <Button
+                                    variant={dislikes[image.id] ? "danger" : "light"}
+                                    onClick={() => handleDislike(image)}>
+                                    <AiFillDislike />
+                                </Button>
+                            </div> 
+                            <a href={image.url} title="View image in lightbox" data-attribute="SRL">
+                                <Card.Img variant="top" src={image.url} />
+                            </a>
+                        </Card>
+                    ))}
+                    </section>
+                </SRLWrapper>
             </StyledBody>
         </>
     )

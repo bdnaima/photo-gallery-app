@@ -180,7 +180,7 @@ const AlbumImages = () => {
                 <SRLWrapper>
                     <section style={{
                             display: "Flex", 
-                            justifyContent: "space-evenly", 
+                            placeContent:"flex-start", 
                             flexWrap: "wrap",
                             marginTop: "2em"}}>
                     
@@ -189,9 +189,10 @@ const AlbumImages = () => {
                                 style={{ 
                                     width: '18rem', 
                                     marginBottom:"2em", 
+                                    margin: "1em",
                                     border: selectedImgs[image.id] ? "4px solid purple" : "none" }}
-                                key={image.id}
-                                onClick={() => handleSelectedImgs(image)}>
+                                key={image.id}>
+                                <Button onClick={() => handleSelectedImgs(image)} style={{backgroundColor:"plum", color:"black"}}>Select</Button>
                                 <input 
                                     type="checkbox"
                                     style={{position: 'absolute'}}

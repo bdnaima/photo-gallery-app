@@ -38,7 +38,7 @@ const NewAlbumModal = ({urls, owner, dislikedUrls,disabled, label, message, plac
                 })
                
             })
-            setConfirmation(alert("Album created!"))
+            setConfirmation("Album successfully created!")
         }
         setShow(false);
     }
@@ -83,7 +83,7 @@ const NewAlbumModal = ({urls, owner, dislikedUrls,disabled, label, message, plac
                 </Modal.Footer>
 
             </Modal>
-            {confirmation}
+            <h2 style={{marginLeft: "10px", color: "purple"}}>{confirmation}</h2>
         </>
     )
 }

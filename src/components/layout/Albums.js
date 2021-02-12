@@ -12,7 +12,6 @@ const StyledCard = styled.div`
     background-color: #800080;
     color: white;
     border-radius: 2em;
-    padding: 1em;
 
     &:hover {
         opacity: 0.5;
@@ -54,7 +53,7 @@ const Albums = () => {
         <>
            <Navigation />
            <StyledBody>
-                <Jumbotron fluid style={{maxHeight: "10em"}}>
+                <Jumbotron fluid>
                     <Container>
                         <h1 style={{color: "lightgray", fontFamily: "cursive"}}>Creating for everyone</h1>
                     </Container>
@@ -66,7 +65,7 @@ const Albums = () => {
                         label="Create Album" 
                         message="Create a new empty album" 
                         placeholder="Enter name"
-                        />
+                    />
                 </div>
             
                 <h1 style={{
@@ -77,15 +76,18 @@ const Albums = () => {
                 </h1>
                 <section style={{
                             display: 'flex', 
-                            justifyContent: "space-evenly", 
-                            flexWrap: "wrap", marginTop: "2em"}}>
+                            placeContent:"flex-start",
+                            flexWrap: "wrap", 
+                            marginTop: "2em"}}>
                     {
                         albums.map(album => (
-                
-                            <Link to={`/albums/${album.id}`} key={album.id} style={{marginBottom: "2em", color: "white"}}>
+                            <Link 
+                                to={`/albums/${album.id}`} 
+                                key={album.id} 
+                                style={{marginBottom: "2em", color: "white", margin: "1em"}}>
                                 <StyledCard>
                                 <Card style={{ width: '18rem', borderColor: "#800080" }} key={album.id}>
-                                    <Card.Img style={{ width: '18rem' }} variant="top" src={albumCover} />
+                                    <Card.Img style={{ width: '18rem'}} variant="top" src={albumCover} />
                                     <Card.Body style={{background: "#800080"}}>
                                         <Card.Title>{album.title}</Card.Title>
                                     </Card.Body>
