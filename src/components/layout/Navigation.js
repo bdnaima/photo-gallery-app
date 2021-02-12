@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import * as ReactBootStrap from 'react-bootstrap';
+import { Link } from 'react-router-dom'
 import { auth } from '../../firebase/firebaseIndex';
 import { AuthContext } from '../../contexts/AuthContext';
 
@@ -13,12 +14,14 @@ const Navigation = () => {
   return (
     <>
         <ReactBootStrap.Navbar collapseOnSelect expand="lg" variant="light">
-        <ReactBootStrap.Navbar.Brand style={{color: "purple"}} href="/albums">Gallery</ReactBootStrap.Navbar.Brand>
+        <Link to="/albums">
+          <ReactBootStrap.Navbar.Brand style={{color: "purple"}}>Gallery</ReactBootStrap.Navbar.Brand>
+        </Link>
           <ReactBootStrap.Nav className="mr-auto">
           </ReactBootStrap.Nav>
           <ReactBootStrap.Navbar.Text>{`${user && user.email} |`}</ReactBootStrap.Navbar.Text>
           <ReactBootStrap.Nav> 
-            <a style={{color: "purple"}} href="/signin" onClick={handleClick}>Sign out</a>
+            <Link to="/signin" style={{color: "purple"}} onClick={handleClick}>Sign out</Link>
           </ReactBootStrap.Nav>
       </ReactBootStrap.Navbar>
     </>

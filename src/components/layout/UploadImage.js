@@ -2,21 +2,27 @@ import React, { useEffect } from 'react';
 import useStorage from '../../hooks/useStorage';
 import { ProgressBar } from 'react-bootstrap';
 
-const UploadImage = ({ imageFile, setImageFile, albumId }) => {
-    const { imageURL, progress } = useStorage(imageFile, albumId);
+const UploadImage = ({ imageFiles, setImageFiles, albumId, setMessage}) => {
+    const { progress, isSuccess, isLoading } = useStorage(imageFiles, albumId);
     
     useEffect(() => {
-        if (imageURL){
-            setImageFile(null);
-        }
-    }, [imageURL, setImageFile])
+        if (isLoading) {
+            setImageFiles(null);
+        }  
 
-    return (
-        <div> 
-            <ProgressBar now={progress} label={`${progress}%`}/>
-        </div>
-        
-    )
+        if(isSuccess) {
+            setMessage("Pictures uploaded successfully!")
+        }
+
+    }, [setImageFiles, setMessage, isSuccess, isLoading])
+
+    return isLoading ? (
+        <>
+            <div> 
+                <ProgressBar now={progress} label={`${progress}%`}/>
+            </div>
+        </>
+    ) : null
 }
 
 export default UploadImage;

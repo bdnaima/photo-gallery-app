@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { Form, Button, Container } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { auth } from '../../firebase/firebaseIndex';
 import styled from 'styled-components';
 import purpleBackground from '../../assets/images/purpleBackground.jpg'
@@ -37,7 +38,7 @@ const Signin = () => {
     return (
         <StyledBody>
             <div style={{display: "flex", justifyContent:"flex-end"}}>
-                <Button><a style={{color: "white"}} href="/signin">Sign in</a></Button>
+                <Button><Link to="/signin" style={{color: "white"}}>Sign in</Link></Button>
             </div>
             <Container 
                 className="d-flex align-items-center justify-content-center" 

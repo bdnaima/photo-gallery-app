@@ -6,6 +6,7 @@ import { db, timestamp } from '../../firebase/firebaseIndex';
 const NewAlbumModal = ({urls, owner, dislikedUrls,disabled, label, message, placeholder}) => {
     const [show, setShow] = useState(false);
     const [title, setTitle] = useState("");
+    const [confirmation, setConfirmation] = useState("");
 
     const handleModal = () => {
         setTitle("");
@@ -35,7 +36,9 @@ const NewAlbumModal = ({urls, owner, dislikedUrls,disabled, label, message, plac
                     createdAt: timestamp(),
                     url: url,
                 })
+               
             })
+            setConfirmation(alert("Album created!"))
         }
         setShow(false);
     }
@@ -63,13 +66,13 @@ const NewAlbumModal = ({urls, owner, dislikedUrls,disabled, label, message, plac
                     <FormGroup>
                         {urls && <p>Included photos</p>}
                         {urls && urls.map(url => (
-                            <img src={url} alt="" style={{maxWidth:"4em"}} />
+                            <img key={url} src={url} alt="" style={{maxWidth:"4em"}} />
                         ))}
                     </FormGroup>
                     <FormGroup>
                         {dislikedUrls && <p>Not included photos</p>}
                         {dislikedUrls && dislikedUrls.map(url => (
-                            <img src={url} alt="" style={{maxWidth:"4em"}} />
+                            <img key={url} src={url} alt="" style={{maxWidth:"4em"}} />
                         ))}
                     </FormGroup>
                 </Modal.Body>
@@ -80,6 +83,7 @@ const NewAlbumModal = ({urls, owner, dislikedUrls,disabled, label, message, plac
                 </Modal.Footer>
 
             </Modal>
+            {confirmation}
         </>
     )
 }

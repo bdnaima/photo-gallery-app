@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import SimpleReactLightbox from "simple-react-lightbox";
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import Signin from './components/authentication/Signin';
 import Signup from './components/authentication/Signup';
@@ -15,6 +16,7 @@ const App = () => {
   return (
     <BrowserRouter>
         <AuthProvider>
+        <SimpleReactLightbox>
           <Route exact path='/'>
             <Redirect to="/signin" />
           </Route>
@@ -38,6 +40,7 @@ const App = () => {
           <Route path='/customer/:albumId'>
             <Customer />
           </Route>
+          </SimpleReactLightbox>
       </AuthProvider>
     </BrowserRouter>
   );

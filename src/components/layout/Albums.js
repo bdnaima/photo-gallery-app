@@ -54,7 +54,7 @@ const Albums = () => {
         <>
            <Navigation />
            <StyledBody>
-                <Jumbotron fluid>
+                <Jumbotron fluid style={{maxHeight: "10em"}}>
                     <Container>
                         <h1 style={{color: "lightgray", fontFamily: "cursive"}}>Creating for everyone</h1>
                     </Container>
@@ -72,7 +72,7 @@ const Albums = () => {
                 <h1 style={{
                         textAlign:"center", 
                         fontFamily:"cursive", 
-                        marginTop:"2em"}}>
+                        marginTop:"1em"}}>
                 Your Albums
                 </h1>
                 <section style={{

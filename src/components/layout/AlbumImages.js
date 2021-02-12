@@ -7,6 +7,7 @@ import Navigation from '../layout/Navigation';
 import UploadImage from '../layout/UploadImage';
 import NewAlbumModal from '../layout/NewAlbumModal';
 import ShareModal from './ShareModal';
+import { SRLWrapper } from "simple-react-lightbox";
 
 const StyledForm = styled.form`
 form {
@@ -41,9 +42,10 @@ const StyledBody = styled.div`
 `
 
 const AlbumImages = () => {
-    const [imageFile, setImageFile] = useState(null);
+    const [imageFiles, setImageFiles] = useState(null);
     const { albumId } = useParams();
     const [error, setError] = useState(null);
+    const [message, setMessage] = useState("");
     const [images, setImages] = useState([]); 
     const [selectedImgs, setSelectedImgs] = useState({});
     const [ title, setTitle ] = useState('');
@@ -65,6 +67,7 @@ const AlbumImages = () => {
                 documents.push(data);
             })
             setImages(documents);
+            
         });
         
         //Unsubscribe from the collection when we are no longer using it.
@@ -85,15 +88,17 @@ const AlbumImages = () => {
 
 
     const handleChange = (e) => {
-        let selected = e.target.files[0];
+        let selectedFiles = e.target.files;
+        const files = [...selectedFiles]
 
-
-        if(selected && types.includes(selected.type)) {
-            setImageFile(selected);
-            setError("");
+        if(files.find(file => {
+            return !types.includes(file.type)
+        })) {
+            setImageFiles(null);
+            setError('Please select an image file either png or jpeg');  
         } else {
-            setImageFile(null);
-            setError('Please select an image file either png or jpeg');
+            setImageFiles(files);
+            setError("");
         }
     }
 
@@ -114,8 +119,7 @@ const AlbumImages = () => {
 
         if (!newTitle) return
         db.collection('albums').doc(albumId)
-            .set({title: newTitle}, {merge: true}  )
-
+            .set({title: newTitle}, {merge: true})
     }
 
     const selectedUrls = Object.values(selectedImgs)
@@ -131,13 +135,12 @@ const AlbumImages = () => {
                 </Jumbotron>
                 <h1 style={{fontFamily: "Cursive", textAlign:"center"}}>{title}</h1>
                 
-
                 <StyledForm>
                     <label>
                         <input 
                             onChange={handleChange}
                             type="file" 
-                            multiple="mulitiple"/>
+                            multiple/>
                         <span>+</span>
                     </label>
                     <div style={{
@@ -154,36 +157,54 @@ const AlbumImages = () => {
                             urls={selectedUrls} 
                             disabled={selectedUrls.length == 0} />
                     </div>
-                    <div style={{backgroundColor: "lightPink", maxWidth: "30em"}}>
+                    <div style={{
+                            backgroundColor: "plum", 
+                            maxWidth: "30em", 
+                            marginRight:'auto', 
+                            marginLeft: 'auto', 
+                            textAlign: 'center'
+                        }}>
                         {error && <div style={{color: "red"}}>
                             {error}
                         </div>}
-                        {imageFile && <div>{imageFile.name}</div>}
-                        { imageFile  && <UploadImage imageFile={imageFile} setImageFile={setImageFile} albumId={albumId}/> }
+                    
+                        <UploadImage 
+                            imageFiles={imageFiles} 
+                            setImageFiles={setImageFiles} 
+                            albumId={albumId} 
+                            setMessage={setMessage}
+                        />
+                        <div>{message}</div>
                     </div>
                 </StyledForm>
-
-                <section style={{
+                <SRLWrapper>
+                    <section style={{
                             display: "Flex", 
                             justifyContent: "space-evenly", 
                             flexWrap: "wrap",
                             marginTop: "2em"}}>
-                    {images && images.map(image => (
-                        <Card
-                            style={{ 
-                                width: '18rem', 
-                                marginBottom:"2em", border: selectedImgs[image.id] ? "4px solid purple" : "none" }}
-                            key={image.id}
-                            onClick={() => handleSelectedImgs(image)}>
-                            <input 
-                                type="checkbox"
-                                style={{position: 'absolute'}}
-                                checked={ selectedImgs[image.id] ? true : false}
-                                onChange={() => handleSelectedImgs(image)} />
-                            <Card.Img variant="top" src={image.url} />
-                        </Card>
-                    ))}
-                </section>
+                    
+                        {images && images.map(image => (
+                            <Card
+                                style={{ 
+                                    width: '18rem', 
+                                    marginBottom:"2em", 
+                                    border: selectedImgs[image.id] ? "4px solid purple" : "none" }}
+                                key={image.id}
+                                onClick={() => handleSelectedImgs(image)}>
+                                <input 
+                                    type="checkbox"
+                                    style={{position: 'absolute'}}
+                                    checked={ selectedImgs[image.id] ? true : false}
+                                    onChange={() => handleSelectedImgs(image)} 
+                                />
+                                <a href={image.url} title="View image in lightbox" data-attribute="SRL">
+                                    <Card.Img variant="top" src={image.url} />
+                                </a>
+                            </Card>
+                        ))}
+                    </section>
+                </SRLWrapper>
             </StyledBody>
         </>
     )
