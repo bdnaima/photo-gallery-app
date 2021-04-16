@@ -17,7 +17,7 @@ const useStorage = (files, albumId) => {
 
         // set progress, error and imageURL inside upload progress
         files.forEach(file => {
-            const storageRef = storage.ref(Date.now() + '_', file.name)
+            const storageRef = storage.ref(Date.now() + '_' + file.name)
             const collectionRef = db.collection('images');
             storageRef.put(file).on('state_changed', snap => {
                 let percentage = (snap.bytesTransferred / snap.totalBytes) * 100;
