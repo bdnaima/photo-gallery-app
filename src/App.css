@@ -14,8 +14,23 @@
   height: 23em;
 }
 
+.textFont {
+  text-align: center;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  font-family: 'Charmonman', fantasy, cursive;
+}
+
+.row {
+  padding: 1rem;
+}
+
 @media (min-width: 576px) { 
   #margin-left {
     margin-left: 0;
   }
+}
+
+@media (max-width: 786px) {
+  
 }

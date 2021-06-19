@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { db } from '../../firebase/firebaseIndex';
-import { Card, Jumbotron, Container } from 'react-bootstrap';
+import { Card, Jumbotron, Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { AuthContext } from '../../contexts/AuthContext';
@@ -11,7 +11,6 @@ import albumCover from '../../assets/images/albumCover.jpg';
 const StyledCard = styled.div`
     background-color: #800080;
     color: white;
-    border-radius: 2em;
 
     &:hover {
         opacity: 0.5;
@@ -29,76 +28,79 @@ const Albums = () => {
     useEffect(() => {
         if (!user) return
         const unsubscribe = db.collection('albums').where('owner', '==', user.uid)
-        .orderBy('title', 'asc')
-        .onSnapshot(snapshot => {
+            .orderBy('title', 'asc')
+            .onSnapshot(snapshot => {
 
-            const dummyAlbums = []
+                const dummyAlbums = []
 
-            snapshot.forEach(doc => {
-                let data = doc.data()
-                data.id = doc.id;
-                dummyAlbums.push(data);
-            });
-            
-            setAlbums(dummyAlbums);
-        },)
+                snapshot.forEach(doc => {
+                    let data = doc.data()
+                    data.id = doc.id;
+                    dummyAlbums.push(data);
+                });
+
+                setAlbums(dummyAlbums);
+            })
         return unsubscribe;
-    },[user]);
-  
+    }, [user]);
+
     if (user === null) {
         return <div>Signing in...</div>;
     }
 
     return (
         <>
-           <Navigation />
-           <StyledBody>
+            <Navigation />
+            <StyledBody>
                 <Jumbotron fluid>
                     <Container>
-                        <h1 style={{color: "lightgray", fontFamily: "cursive"}}>Creating for everyone</h1>
+                        <h1 style={{ color: "lightgray", fontFamily: "cursive" }}>Creating for everyone</h1>
                     </Container>
                 </Jumbotron>
 
-                <div style={{display:"flex", justifyContent:"center"}}>
-                    <NewAlbumModal 
-                        owner={user && user.uid}    
-                        label="Create Album" 
-                        message="Create a new empty album" 
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                    <NewAlbumModal
+                        owner={user && user.uid}
+                        label="Create Album"
+                        message="Create a new empty album"
                         placeholder="Enter name"
                     />
                 </div>
-            
+
                 <h1 style={{
-                        textAlign:"center", 
-                        fontFamily:"cursive", 
-                        marginTop:"1em"}}>
-                Your Albums
+                    textAlign: "center",
+                    fontFamily: "cursive",
+                    marginTop: "1em"
+                }}>
+                    Your Albums
                 </h1>
                 <section style={{
-                            display: 'flex', 
-                            placeContent:"flex-start",
-                            flexWrap: "wrap", 
-                            marginTop: "2em"}}>
+                    display: 'flex',
+                    flexWrap: "wrap"
+                }}>
                     {
                         albums.map(album => (
-                            <Link 
-                                to={`/albums/${album.id}`} 
-                                key={album.id} 
-                                style={{marginBottom: "2em", color: "white", margin: "1em"}}>
+                            <Link
+                                to={`/albums/${album.id}`}
+                                key={album.id}
+                                style={{ marginBottom: "2em", color: "white", margin: "1em" }}>
                                 <StyledCard>
-                                <Card style={{ width: '18rem', borderColor: "#800080" }} key={album.id}>
-                                    <Card.Img style={{ width: '18rem'}} variant="top" src={albumCover} />
-                                    <Card.Body style={{background: "#800080"}}>
-                                        <Card.Title>{album.title}</Card.Title>
-                                    </Card.Body>
-                                </Card>
+                                    <Row style={{ width: '18rem', borderColor: "#800080" }} key={album.id}>
+                                        <Col>
+                                            <Card.Img variant="top" src={albumCover} />
+                                            <Card.Body style={{ background: "#800080" }}>
+                                                <Card.Title className="textFont">{album.title}</Card.Title>
+                                            </Card.Body>
+                                        </Col>
+
+                                    </Row>
                                 </StyledCard>
-                             </Link>
+                            </Link>
                         ))
                     }
                 </section>
             </StyledBody>
-    </>
+        </>
     )
 }
 

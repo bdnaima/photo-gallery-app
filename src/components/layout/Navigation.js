@@ -1,6 +1,6 @@
-import React, { useContext } from 'react'
-import * as ReactBootStrap from 'react-bootstrap';
-import { Link } from 'react-router-dom'
+import React, { useContext } from 'react';
+import { Navbar, Nav } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { auth } from '../../firebase/firebaseIndex';
 import { AuthContext } from '../../contexts/AuthContext';
 
@@ -13,20 +13,23 @@ const Navigation = () => {
 
   return (
     <>
-        <ReactBootStrap.Navbar collapseOnSelect expand="lg" variant="light">
-        <Link to="/albums">
-          <ReactBootStrap.Navbar.Brand style={{color: "purple"}}>Gallery</ReactBootStrap.Navbar.Brand>
+      <Navbar collapseOnSelect expand="lg" variant="light">
+        <Link to="/">
+          <Navbar.Brand style={{ color: "purple", fontSize: "20px" }} className="textFont">Stunning Gallery</Navbar.Brand>
         </Link>
-          <ReactBootStrap.Nav className="mr-auto">
-          </ReactBootStrap.Nav>
-          <ReactBootStrap.Navbar.Text>{`${user && user.email} |`}</ReactBootStrap.Navbar.Text>
-          <ReactBootStrap.Nav> 
-            <Link to="/signin" style={{color: "purple"}} onClick={handleClick}>Sign out</Link>
-          </ReactBootStrap.Nav>
-      </ReactBootStrap.Navbar>
+        <Nav className="mr-auto">
+        </Nav>
+        {user && <Navbar.Text>{`${user && user.email} |`}</Navbar.Text>}
+        <Nav>
+          {user && <Link to="/" style={{ color: "purple" }} onClick={handleClick}>Sign out</Link>}
+        </Nav>
+        <Nav>
+          {!user && <Link to="/signin" style={{ color: "purple" }}>Sign in</Link>}
+        </Nav>
+      </Navbar>
     </>
 
-    );
-  }
-  
-  export default Navigation;
+  );
+}
+
+export default Navigation;
